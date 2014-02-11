@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}{% trans %}Integrated{% endtrans %}{% endblock title %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="{{ asset('/css/bootstrap.css') }}" rel="stylesheet" media="screen">
+        <script type="text/javascript" src="http://tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+    {% include 'BraincraftedBootstrapBundle::ie8-support.html.twig' %}
+    </head>
+    <body>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ path('integrated_content_contenttype_index') }}">Home</a>
+            </li>
+
+        </ol>
+        <div class="page-header">
+
+        </div>
+        <form method="post" action="{{ path('integrated_wordconnector_new') }}" enctype="multipart/form-data" >
+            <div class="form-group">
+                <label> {% trans %}File{% endtrans %}</label> <input type="file" name="file" />
+                <br>
+                <label> {% trans %}Document type{% endtrans %}</label>
+                <select name="type" class="form-control">
+                {% for type in documentTypes %}
+                        <option value="{{ type.class }}">{{ type.type }}</option>
+                {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    {% trans %}Submit{% endtrans %}
+                </button>
+            </form>
+            <div class="container">
+    {% include 'BraincraftedBootstrapBundle::flash.html.twig' with { 'close': true } %}
+    {% block body %}{% endblock body %}
+                </div>
+                <script src="//code.jquery.com/jquery.js"></script>
+                <script src="{{ asset('/js/bootstrap.js') }}"></script>
+            </body>
+        </html>
