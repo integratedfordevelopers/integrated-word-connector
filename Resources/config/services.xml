@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    
+    <parameters>
+        <parameter key="integrated_word_connector.crawler.class">Symfony\Component\DomCrawler\Crawler</parameter>
+        <parameter key="integrated_word_connector.word_connector_service.class">Integrated\Bundle\WordConnectorBundle\Services\WordConnectorService</parameter>
+    </parameters>
+    <services>
+        <service id="integrated_word_connector.crawler"
+                 class="%integrated_word_connector.crawler.class%">
+        </service>
+        <service id="integrated_word_connector.word_connector_service"
+                 class="%integrated_word_connector.word_connector_service.class%">
+            <argument type="service" id="funstaff.tika"/>
+            <argument type="service" id="doctrine_mongodb"/>
+            <argument type="service" id="integrated_word_connector.crawler"/>
+        </service>
+    </services>
+
+</container>
