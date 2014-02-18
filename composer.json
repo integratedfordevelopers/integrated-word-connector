@@ -1,0 +1,46 @@
+{
+    "name": "integrated/word-connector",
+    "type": "symfony-bundle",
+    "description": "Integrated word connector Bundle",
+    "keywords": ["Integrated", "word connector"],
+    "homepage": "http://www.e-active.nl",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "e-Active",
+            "homepage": "http://www.e-active.nl"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:emgiezet/FunstaffTikaBundle.git"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=5.4",
+        "symfony/symfony": "2.3.*",
+        "symfony/framework-bundle": "~2.2",
+		"knplabs/knp-paginator-bundle": "dev-master",
+        "doctrine/mongodb": "1.0.*",
+        "doctrine/mongodb-odm": "1.0.*",
+        "doctrine/mongodb-odm-bundle": "3.0.*",
+        "integrated/library": "dev-develop",
+        "integrated/formtype-bundle": "dev-develop",
+        "braincrafted/bootstrap-bundle": "~2.0",
+        "twbs/bootstrap": "3.*"
+    },
+    "autoload":{
+        "psr-0":{
+            "Integrated\\Bundle\\WordConnectorBundle": ""
+        }
+    },
+    "target-dir": "Integrated/Bundle/WordConnectorBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
