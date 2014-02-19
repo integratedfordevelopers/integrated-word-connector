@@ -34,17 +34,6 @@ class WordConnectorServiceTest extends WebTestCase
         $container = $client->getContainer();
         
          $this->wordConnectorService = $container->get('integrated_word_connector.word_connector_service');
-        // Mocks
-   /*    $tika = $this->getMockBuilder('Funstaff\TikaBundle\Wrapper\Tika')
-    ->disableOriginalConstructor()
-    ->getMock();
-        $crawler = $this->getMock('Symfony\Component\DomCrawler\Crawler');
-        $doctrineMongodb = $this->getMockBuilder('Doctrine\Bundle\MongoDBBundle\ManagerRegistry')
-    ->disableOriginalConstructor()
-    ->getMock();
-
-        // Create WordConnectorService
-        $this->wordConnectorService = new WordConnectorService($tika,$doctrineMongodb,$crawler);*/
     }
 
     /**

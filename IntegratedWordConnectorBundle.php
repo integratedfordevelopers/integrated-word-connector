@@ -7,7 +7,7 @@ use Integrated\Bundle\WordConnectorBundle\DependencyInjection\IntegratedWordConn
 /**
  * IntegratedWordConnectorBundle
  *
- * @author Nizar Ellouze <nizarellouze@yahoo.fr>
+ * @author Nizar Ellouze <integrated@e-active.nl>
  */
 class IntegratedWordConnectorBundle extends Bundle
 {

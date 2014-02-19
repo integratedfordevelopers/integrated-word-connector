@@ -14,70 +14,79 @@ namespace Integrated\Bundle\WordConnectorBundle\Services;
 use Integrated\Bundle\ContentBundle\Document\Content\Article;
 use Integrated\Bundle\ContentBundle\Document\Content\File;
 use Doctrine\Common\Collections\ArrayCollection;
-use Funstaff\TikaBundle\Wrapper\Tika;
+use Funstaff\Tika\Wrapper;
+use Funstaff\Tika\ConfigurationInterface;
 use Symfony\Component\DomCrawler\Crawler;
+use Funstaff\Tika\Document;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
 /**
- * @author Nizar Ellouze <nizarellouze@yahoo.fr>
+ * @author Nizar Ellouze <integrated@e-active.nl>
  */
-class WordConnectorService
+class WordConnectorService extends Wrapper
 {
-
-    private $tika;
     private $doctrineMongodb;
     private $crawler;
-    public function __construct(Tika $tika, $doctrineMongodb,Crawler $crawler)
+    
+    /**
+     * Constructor
+     * @param Doctrine\Bundle\MongoDBBundle\ManagerRegistry $doctrineMongodb
+     * @param Symfony\Component\DomCrawler\Crawler $crawler
+     * @param Funstaff\Tika\ConfigurationInterface $config
+     */
+    public function __construct(ManagerRegistry $doctrineMongodb, Crawler $crawler, ConfigurationInterface $config)
     {
-        $this->tika = $tika;
-        $this->doctrineMongodb=$doctrineMongodb;
-        $this->crawler= $crawler;
+        $this->doctrineMongodb = $doctrineMongodb;
+        $this->crawler = $crawler;
+        parent::__construct($config);
     }
+
     /**
      * Upload and save word content into article
      *
-     * @param Request $request
-     * 
+     * @param Array $files
+     * @param String $type
      * @return Response A Response instance
      */
-    public function convert($files,$type)
+    public function convert($files, $type)
     {
-        
-        foreach ($files as $file ) {
-            $fileName =$file["fileName"];
-            $path=$file["path"];
-            $this->tika->setOutputFormat('xml');
-            $this->tika->addDocument($fileName, $path);
-            $this->tika->extractMetadata();
-            $this->tika->extractContent();
-            $this->tika->extractImages();
+        foreach ($files as $file) {
+            $fileName = $file["fileName"];
+            $path = $file["path"];
+            $document = new Document($fileName, $path);
+            $this->addDocument($document);
+            $this->execute();
         }
-
-        $documents = $this->tika->getDocuments();
-        foreach ($documents as $doc) {
-            $metadata = $doc->getMetadata();
+        foreach ($files as $file) {
+            $fileName = $file["fileName"];
+            $document = $this->getDocument($fileName);
+            $metadata = $document->getMetadata();
             $author = $metadata->get("Author");
-            $title = $metadata->get("title");
+            $title = $metadata->get("dc:title");
+
             if ($title == "") {
-                $this->crawler->addContent($doc->getContent());
+                $this->crawler->addContent($document->getContent());
                 $title = $this->crawler->filter('body p:first-child b')->text();
                 if ($title == "") {
                     $title = $fileName;
                 }
             }
-
             //Create new Article and add images as Files.
             $article = new Article();
+            $authors = new ArrayCollection();
+            $authors->add($author);
+            //$article->setAuthors($authors);
             $article->setContentType($type);
             $article->setTitle($title);
-            $article->setContent($doc->getContent());
-
+            $article->setContent($document->getContent());
             $references = new ArrayCollection();
             $dm = $this->doctrineMongodb->getManager();
-            foreach ($doc->getImages() as $image) {
+            foreach ($document->images as $image) {
+                $uploadedFile =new UploadedFile("upload/" . $document->getName() . "/" . $image, 'original', 'mime/original', 123, UPLOAD_ERR_OK, true);
                 $file = new File();
-                $file->setPath("upload/" . $doc->getName() . "/" . $image);
+                $file->setFile($uploadedFile);
                 $references->add($file);
             }
-
             //$article->setReferences($references);
             $dm->persist($article);
             $dm->flush();
@@ -86,5 +95,60 @@ class WordConnectorService
         return true;
     }
 
-    
+    /**
+     * Execute
+     *
+     * @return Integrated\Bundle\WordConnectorBundle\Services\WordConnectorService
+     */
+    public function execute()
+    {
+        parent::execute();
+        $base = $this->generateCommand();
+        foreach ($this->document as $name => $doc) {
+            if ($doc->getPassword()) {
+                $command = sprintf('%s --password=%s', $base, $doc->getPassword());
+            } else {
+                $command = $base;
+            }
+            if ($this->logger) {
+                $this->logger->addInfo(sprintf('Tika command: "%s"', $command));
+            }
+            ob_start();
+            if (!is_dir("upload/" . $doc->getName())) {
+                mkdir("upload/" . $doc->getName());
+            }
+            $cmd = sprintf("$command -z --extract-dir=./upload/" . $doc->getName() . " %s", $doc->getPath());
+            passthru($cmd);
+            ob_get_clean();
+            $images = scandir("upload/" . $doc->getName());
+            array_shift($images);
+            array_shift($images);
+            $doc->images=$images;
+        }
+        
+        return $this;
+    }
+
+    /**
+     * Generate Command
+     *
+     * @return string $command
+     */
+    private function generateCommand()
+    {
+
+        $java = $this->config->getJavaBinaryPath() ? : 'java';
+        $command = sprintf('%s -jar %s', $java, $this->config->getTikaBinaryPath());
+
+        if (!$this->config->getMetadataOnly()) {
+            $command .= ' --' . $this->config->getOutputFormat();
+        } else {
+            $command .= ' --json';
+        }
+
+        $command .= sprintf(' --encoding=%s', $this->config->getOutputEncoding());
+
+        return $command;
+    }
+
 }

@@ -14,9 +14,12 @@
         </service>
         <service id="integrated_word_connector.word_connector_service"
                  class="%integrated_word_connector.word_connector_service.class%">
-            <argument type="service" id="funstaff.tika"/>
             <argument type="service" id="doctrine_mongodb"/>
             <argument type="service" id="integrated_word_connector.crawler"/>
+            <argument type="service" id="funstaff_tika.config" />
+             <call method="setLogger">
+                 <argument type="service" id="logger" on-invalid="null" />
+             </call>
         </service>
     </services>
 

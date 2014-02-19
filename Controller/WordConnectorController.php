@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @author Nizar Ellouze <nizarellouze@yahoo.fr>
+ * @author Nizar Ellouze <integrated@e-active.nl>
  */
 class WordConnectorController extends Controller {
 
