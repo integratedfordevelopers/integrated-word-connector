@@ -18,7 +18,7 @@ class IntegratedWordConnectorExtension extends Extension implements PrependExten
     /**
      * @var string
      */
-    protected $formTemplate = 'IntegratedWordConnectorBundle:Form:upload.html.html.twig';
+    protected $formTemplate = 'IntegratedContentBundle:Form:form_div_layout.html.twig';
 
     /**
      * Load the configuration
