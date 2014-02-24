@@ -5,10 +5,10 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder,
     Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * Configuration class for ContentBundle
+ * Configuration class for WordConnectorBundle
  *
- * @package Integrated\Bundle\ContentBundle\DependencyInjection
- * @author Jeroen van Leeuwen <jeroen@e-active.nl>
+ * @package Integrated\Bundle\WordConnectorBundle\DependencyInjection
+ * @author Nizar Ellouze <integrated@e-active.nl>
  */
 class Configuration implements ConfigurationInterface
 {
@@ -18,8 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('integrated_content');
-
+        $treeBuilder->root('integrated_word_connector');
         return $treeBuilder;
     }
 }

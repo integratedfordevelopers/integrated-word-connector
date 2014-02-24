@@ -38,7 +38,7 @@ class WordConnectorController extends Controller {
      * 
      * @return Response A Response instance
      */
-    public function newAction(Request $request) {
+    public function saveAction(Request $request) {
 
         $files = $request->files;
         $type = $request->get("type");
@@ -48,9 +48,7 @@ class WordConnectorController extends Controller {
             $extension = $uploadedFile->getClientOriginalExtension();
             $fileName = str_replace("." . $extension, "", $fileFullName);
             $uploadedFile->move($directory, $fileFullName);
-            
             $documents[]=array("fileName"=>$fileName ,"path"=> $directory . "/" . $fileFullName);
-            
         }
         $wordConnectorService = $this->get('integrated_word_connector.word_connector_service');
         if ($wordConnectorService->convert($documents, $type)) {

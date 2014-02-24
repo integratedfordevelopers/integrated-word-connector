@@ -8,17 +8,17 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
 /**
- * IntegratedContentExtension for loading configuration
+ * IntegratedWordConnectorExtension for loading configuration
  *
- * @package Integrated\Bundle\ContentBundle\DependencyInjection
- * @author Jeroen van Leeuwen <jeroen@e-active.nl>
+ * @package Integrated\Bundle\WordConnectorBundle\DependencyInjection
+ * @author Nizar Ellouze <integrated@e-active.nl>
  */
 class IntegratedWordConnectorExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * @var string
      */
-    protected $formTemplate = 'IntegratedContentBundle:Form:form_div_layout.html.twig';
+    protected $formTemplate = 'IntegratedWordConnectorBundle:Form:upload.html.html.twig';
 
     /**
      * Load the configuration
@@ -30,7 +30,6 @@ class IntegratedWordConnectorExtension extends Extension implements PrependExten
     {
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
-
         $configuration = new Configuration();
         $this->processConfiguration($configuration, $configs);
     }

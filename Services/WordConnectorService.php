@@ -25,7 +25,13 @@ use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
  */
 class WordConnectorService extends Wrapper
 {
+    /**
+     * @var Doctrine\Bundle\MongoDBBundle\ManagerRegistry
+     */    
     private $doctrineMongodb;
+    /**
+     * @var Symfony\Component\DomCrawler\Crawler
+     */    
     private $crawler;
     
     /**
@@ -46,7 +52,7 @@ class WordConnectorService extends Wrapper
      *
      * @param Array $files
      * @param String $type
-     * @return Response A Response instance
+     * @return boolean
      */
     public function convert($files, $type)
     {

@@ -19,7 +19,7 @@ use Integrated\Bundle\WordConnectorBundle\Services\WordConnectorService;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
- * @author Jeroen van Leeuwen <jeroen@e-active.nl>
+ * @author Nizar Ellouze <integrated@e-active.nl>
  */
 class WordConnectorServiceTest extends WebTestCase
 {
@@ -32,7 +32,6 @@ class WordConnectorServiceTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        
          $this->wordConnectorService = $container->get('integrated_word_connector.word_connector_service');
     }
 
@@ -44,7 +43,6 @@ class WordConnectorServiceTest extends WebTestCase
          
          $documents[]=array("fileName"=>"Example_document" ,"path"=>  "web/upload/Example_document.doc");
          $type="Integrated\Bundle\ContentBundle\Document\Content\Relation\Company";
-
         // Assert
         $this->assertTrue( $this->wordConnectorService->convert($documents,$type));
     }

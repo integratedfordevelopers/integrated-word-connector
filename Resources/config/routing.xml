@@ -8,7 +8,7 @@
     <route id="integrated_wordconnector_index" path="/wordconnector/" methods="GET">
         <default key="_controller">IntegratedWordConnectorBundle:WordConnector:index</default>
     </route>
-    <route id="integrated_wordconnector_new" path="/new" methods="POST">
-        <default key="_controller">IntegratedWordConnectorBundle:WordConnector:new</default>
+    <route id="integrated_wordconnector_save" path="/save" methods="POST">
+        <default key="_controller">IntegratedWordConnectorBundle:WordConnector:save</default>
     </route>
 </routes>
