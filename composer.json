@@ -11,12 +11,6 @@
             "homepage": "http://www.e-active.nl"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:emgiezet/FunstaffTikaBundle.git"
-        }
-    ],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
@@ -30,7 +24,8 @@
         "integrated/library": "dev-develop",
         "integrated/formtype-bundle": "dev-develop",
         "braincrafted/bootstrap-bundle": "~2.0",
-        "twbs/bootstrap": "3.*"
+        "twbs/bootstrap": "3.*",
+        "funstaff/tika-bundle":"dev-master"
     },
     "autoload":{
         "psr-0":{
