@@ -17,6 +17,7 @@ class IntegratedWordConnectorBundle extends Bundle
      */
     public function getContainerExtension()
     {
+        //comment
         return new IntegratedWordConnectorExtension();
     }
 
