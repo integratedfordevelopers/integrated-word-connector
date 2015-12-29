@@ -15,7 +15,7 @@
     "prefer-stable": true,
     "require": {
         "php": ">=5.4",
-        "symfony/symfony": "2.3.*",
+        "symfony/symfony": "~2.3",
         "symfony/framework-bundle": "~2.2",
 		"knplabs/knp-paginator-bundle": "*",
         "doctrine/mongodb": "~1.0",
