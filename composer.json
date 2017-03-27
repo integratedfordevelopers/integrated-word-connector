@@ -27,6 +27,10 @@
         "twbs/bootstrap": "3.*",
         "funstaff/tika-bundle":"dev-master"
     },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^2.8",
+        "phpunit/phpunit": "^5.7"
+    },
     "autoload":{
         "psr-0":{
             "Integrated\\Bundle\\WordConnectorBundle": ""
